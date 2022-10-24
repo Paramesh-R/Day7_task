@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        rest_url = "https://restcountries.com/v3.1/all";
+        let req = new XMLHttpRequest();
+        req.open('GET', rest_url);
+        req.send();
+
+        var data;
+        req.onload = function () {
+            data = JSON.parse(req.response);
+            console.log(data);
+
+            // A. Get all the countries from the Asia continent /region using the Filter function
+            var countries_in_asia = data.filter((element) => {
+                return element.region == "Asia";
+            })
+            console.log("Countries in Asia");
+            console.log(countries_in_asia);
+            // ----------------------------------------------------------------------
+
+
+            // B. Get all the countries with a population of less than 2 lakhs using Filter function
+            var pop_lt_2lakhs = data.filter((element) => {
+                return element.population < 200000;
+            })
+            console.log("Countries with population less than 2 Lakhs");
+            console.log(pop_lt_2lakhs);
+            // ----------------------------------------------------------------------
+
+            // C. Print the following details name, capital, flag using forEach function
+            data.forEach(element => {
+                console.log("Name: ", element.name.common);
+                console.log("Capital: ", element.capital);
+                console.log("Flag: ", element.flag);
+            });
+            // ----------------------------------------------------------------------
+
+
+
+            // D. Print the total population of countries using reduce function
+            var tot_pop = data.reduce((acc, element) => {
+                return acc + element.population;
+            }, 0)
+            console.log(tot_pop);
+            // ----------------------------------------------------------------------
+
+
+
+            // E. Print the country which uses US Dollars as currency.
+            console.log("\n Countries that use US Dollars as Currency")
+            for (var country of data) {
+                for (let key in country.currencies) {
+                    if (country.currencies[key].name == "United States dollar") {
+                        console.log(country.name.common)
+                    }
+                }
+            }
+            // ----------------------------------------------------------------------
+        }
+
+
+
+    </script>
+</body>
+
+</html>
